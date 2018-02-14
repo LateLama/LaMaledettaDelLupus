@@ -1,0 +1,2 @@
+# LaMaledettaDelLupus
+Bot del Covo.
