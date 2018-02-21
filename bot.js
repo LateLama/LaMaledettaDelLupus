@@ -19,7 +19,6 @@ bot.login(process.env.BOT_TOKEN);
 //Quando il bot è pronto, lo annuncia nel prompt.
 bot.on("ready", function() {
   console.log("Pronto");
-  bot.user.setUsername("LaTroiaDelLupus");
 });
 
 bot.on("message", function(message) {
