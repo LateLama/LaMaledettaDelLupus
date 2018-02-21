@@ -28,7 +28,10 @@ bot.on("message", function(message) {
   if (!message.content.startsWith(PREFIX)) return;
   var args = message.content.substring(PREFIX.length).split(" ");
   switch (args[0].toLowerCase()){
-
+    //Gruppo segreto.
+    case "nsfw":
+      message.guild.channels.find(id, 415856780674072576).overwritePermissions(message.author, {VIEW_CHANNEL:TRUE});
+      
     //Musica
     case "play":
       if (!args[1]) {
