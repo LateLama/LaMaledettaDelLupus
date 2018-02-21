@@ -32,6 +32,7 @@ bot.on("message", function(message) {
     //Gruppo segreto.
     case "nsfw":
       message.guild.channels.find("id", "415856780674072576").overwritePermissions(message.author, {VIEW_CHANNEL: true});
+      message.channel.send("Hai trovato il canale segreto, complimenti! Vai e divertiti!";
       break;
       
     //Musica
