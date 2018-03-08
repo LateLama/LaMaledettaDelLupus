@@ -30,7 +30,11 @@ bot.on("message", function(message) {
   switch (args[0].toLowerCase()){
     
     //Gruppo segreto.
-    case "nsfw":
+    case "massoni":
+    case "massone":
+      message.channel.send("Say my name.");
+      break;
+    case "lauragori":
       message.guild.channels.find("id", "415856780674072576").overwritePermissions(message.author, {VIEW_CHANNEL: true, SEND_MESSAGES: true, ATTACH_FILES: true, ADD_REACTIONS: true, EMBED_LINKS: true, READ_MESSAGE_HISTORY: true});
       message.delete();
       message.channel.send("<:PartyTime:412695740196847617> Hai trovato il canale segreto, complimenti! Vai e divertiti! Il comando che hai immesso è stato cancellato dalla chat, in modo che gli altri non lo leggano. Mantieni il segreto. <:PartyTime:412695740196847617> ");
