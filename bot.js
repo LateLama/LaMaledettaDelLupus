@@ -88,17 +88,62 @@ bot.on("message", function(message) {
     case "easeglab":
       message.delete();
       if (contatoreTesoro >= 4) {
-        message.channel.send("Se solo ");
+        message.channel.send("Sempre triggerare gli avversari. E' una sensazione fantastica. Un pò l'opposto di ciò che chiedo.");
         contatoreTesoro = 5;
+      }else{
+        message.channel.send("Comando non valido.");
+      };
+      break;
+    
+    case "cringe":
+      message.delete();
+      if (contatoreTesoro >= 5) {
+        message.channel.send("E anche questa è andata! Ma andata dove? Di sicuro lui non lo sa.");
+        contatoreTesoro = 6;
+      }else{
+        message.channel.send("Comando non valido.");
+      };
+      break;
+    
+    case "orlando":
+    case "orulando":
+      message.delete();
+      if (contatoreTesoro >= 6) {
+        message.channel.send("Rest in pepperoni figlia. Almeno facciamoci due risate su. E che cazzo però!");
+        contatoreTesoro = 7;
+      }else{
+        message.channel.send("Comando non valido.");
+      };
+      break;
+    
+    case "manuel":
+      message.delete();
+      if (contatoreTesoro >= 7) {
+        message.channel.send("A questo punto manca pochissimo! Osserva bene tutti gli indizi.");
+        contatoreTesoro = 8;
+      }else{
+        message.channel.send("Comando non valido.");
+      };
+      break;
+    
+    case "mentana":
+      message.delete();
+      if (contatoreTesoro >= 8) {
+        message.channel.send("Ci siamo quasi! Ora, ***say my name***");
+        contatoreTesoro = 9;
       }else{
         message.channel.send("Comando non valido.");
       };
       break;
       
     case "lauragori":
-      message.guild.channels.find("id", "415856780674072576").overwritePermissions(message.author, {VIEW_CHANNEL: true, SEND_MESSAGES: true, ATTACH_FILES: true, ADD_REACTIONS: true, EMBED_LINKS: true, READ_MESSAGE_HISTORY: true});
-      message.delete();
-      message.channel.send("<:PartyTime:412695740196847617> Hai trovato il canale segreto, complimenti! Vai e divertiti! Il comando che hai immesso è stato cancellato dalla chat, in modo che gli altri non lo leggano. Mantieni il segreto. <:PartyTime:412695740196847617> ");
+      if (contatoreTesoro >= 9) {
+        message.guild.channels.find("id", "415856780674072576").overwritePermissions(message.guild.roles.find("id", "421866349443416067"), {VIEW_CHANNEL: true, SEND_MESSAGES: true, ATTACH_FILES: true, ADD_REACTIONS: true, EMBED_LINKS: true, READ_MESSAGE_HISTORY: true});
+        message.delete();
+        message.channel.send("<:PartyTime:412695740196847617> Hai trovato il canale segreto, complimenti! Vai e divertiti! <:PartyTime:412695740196847617> ");
+      }else{
+        message.channel.send("Comando non valido.");
+      };
       break;
       
     //Musica
