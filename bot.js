@@ -19,7 +19,7 @@ bot.login(process.env.BOT_TOKEN);
 
 //Quando il bot è pronto, lo annuncia nel prompt.
 bot.on("ready", function() {
-  console.log("Pronto");
+  console.log("Pronto!");
 });
 
 bot.on("message", function(message) {
@@ -178,4 +178,3 @@ bot.on("message", function(message) {
       message.channel.send("Comando non valido.");
   }
 });
-
