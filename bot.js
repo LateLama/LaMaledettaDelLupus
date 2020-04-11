@@ -36,7 +36,7 @@ bot.on("message", function(message) {
         return;
       }
       if (!message.guild.voiceConnection) message.member.voice.channel.join().then(connection => {
-            const dispatcher = connection.play('https://web.whatsapp.com/9e44d64e-d011-4b0e-8a55-92326099294c');
+            const dispatcher = connection.play('https://drive.google.com/file/d/1pUkDcQOcFL3tKUeGyv019uzMA5qZ3avd/view');
             dispatcher.on("end", end => {message.member.voice.channel.leave()});
       }).catch(console.error);
       break;
