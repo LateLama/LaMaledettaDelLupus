@@ -37,8 +37,8 @@ bot.on("message", function(message) {
         return;
       }
       if (!message.guild.voiceConnection) message.member.voice.channel.join().then(connection => {
+        var link;
         switch (args[0].toLowerCase()){
-            var link;
           case "drillo":
             link = "https://drive.google.com/uc?export=download&id=1pUkDcQOcFL3tKUeGyv019uzMA5qZ3avd";
             break;
