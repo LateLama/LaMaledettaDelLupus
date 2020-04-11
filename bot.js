@@ -31,13 +31,13 @@ bot.on("message", function(message) {
       
     //Audio  
     case "audio":
-      if (!message.member.voiceChannel) {
+      if (!message.member.voice.channel) {
         message.channel.send("Devi essere in un canale vocale per ascoltare.")
         return;
       }
-      if (!message.guild.voiceConnection) message.member.voiceChannel.join().then(connection => {
+      if (!message.guild.voiceConnection) message.member.voice.channel.join().then(connection => {
             const dispatcher = connection.play('https://interactive-examples.mdn.mozilla.net/media/examples/t-rex-roar.mp3');
-            dispatcher.on("end", end => {message.member.voiceChannel.leave()});
+            dispatcher.on("end", end => {message.member.voice.channel.leave()});
       }).catch(console.error);
       break;
       
@@ -47,7 +47,7 @@ bot.on("message", function(message) {
         message.channel.send("Mi serve un link.");
         return;
       }
-      if (!message.member.voiceChannel) {
+      if (!message.member.voice.channel) {
         message.channel.send("Devi essere in un canale vocale per ascoltare.")
         return;
       }
@@ -56,7 +56,7 @@ bot.on("message", function(message) {
       };
       var server = servers[message.guild.id];
       server.queue.push(args[1]);
-      if (!message.guild.voiceConnection) message.member.voiceChannel.join().then(function(connection) {
+      if (!message.guild.voiceConnection) message.member.voice.channel.join().then(function(connection) {
         playYouTube(connection, message);
       });
       break;
@@ -66,7 +66,7 @@ bot.on("message", function(message) {
       break;
     case "stop":
       var server = servers[message.guild.id];
-      if (message.guild.voiceConnection) message.guild.voiceConnection.disconnect();
+      if (message.guild.voice.connection) message.guild.voiceConnection.disconnect();
       break;
 
     default:
