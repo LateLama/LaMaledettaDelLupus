@@ -10,7 +10,7 @@ function playYouTube(connection, message) {
   server.queue.shift();
   server.dispatcher.on("end", function() {
     if (server.queue[0]) playYouTube (connection, message);
-    else message.guild.voice.connection.leave();
+    else message.member.voice.channel.leave();
   });
 }
 
@@ -45,7 +45,7 @@ bot.on("message", function(message) {
             connection.play('https://drive.google.com/uc?export=download&id=1Bx-5fS7hiDJMj14wHGSjQsqELGEqvi9r');
             break;
         }
-        message.guild.voice.connection.leave();
+        message.member.voice.channel.leave();
       }).catch(console.error);
       break;
       
@@ -74,7 +74,7 @@ bot.on("message", function(message) {
       break;
     case "stop":
       var server = servers[message.guild.id];
-      if (message.guild.voice.connection) message.guild.voice.connection.leave();
+      if (message.guild.voice.connection) message.member.voice.channel.leave();
       break;
 
     default:
