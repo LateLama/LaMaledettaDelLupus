@@ -30,7 +30,8 @@ bot.on("message", function(message) {
   switch (args[0].toLowerCase()){
       
     //Audio  
-    case "drillo", "wut":
+    case "drillo":
+    case "wut":
       if (!message.member.voice.channel) {
         message.channel.send("Devi essere in un canale vocale per ascoltare.")
         return;
