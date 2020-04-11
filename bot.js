@@ -29,10 +29,6 @@ bot.on("message", function(message) {
   var args = message.content.substring(PREFIX.length).split(" ");
   switch (args[0].toLowerCase()){
     case "audio":
-      if (!args[1]) {
-        message.channel.send("Mi serve un link.");
-        return;
-      }
       if (!message.member.voiceChannel) {
         message.channel.send("Devi essere in un canale vocale per ascoltare.")
         return;
