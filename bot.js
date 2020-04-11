@@ -30,14 +30,19 @@ bot.on("message", function(message) {
   switch (args[0].toLowerCase()){
       
     //Audio  
-    case "budrillino":
+    case "drillo", "wut":
       if (!message.member.voice.channel) {
         message.channel.send("Devi essere in un canale vocale per ascoltare.")
         return;
       }
       if (!message.guild.voiceConnection) message.member.voice.channel.join().then(connection => {
-            const dispatcher = connection.play('https://drive.google.com/uc?export=download&id=1pUkDcQOcFL3tKUeGyv019uzMA5qZ3avd');
-            dispatcher.on("end", end => {message.member.voice.channel.leave()});
+        case "drillo":
+          connection.play('https://drive.google.com/uc?export=download&id=1pUkDcQOcFL3tKUeGyv019uzMA5qZ3avd');
+          break;
+        case "wut":
+          connection.play('https://drive.google.com/uc?export=download&id=1Bx-5fS7hiDJMj14wHGSjQsqELGEqvi9r');
+          break;
+        connection.leave();
       }).catch(console.error);
       break;
       
