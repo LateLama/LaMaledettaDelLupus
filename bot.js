@@ -30,13 +30,13 @@ bot.on("message", function(message) {
   switch (args[0].toLowerCase()){
       
     //Audio  
-    case "audio":
+    case "budrillino":
       if (!message.member.voice.channel) {
         message.channel.send("Devi essere in un canale vocale per ascoltare.")
         return;
       }
       if (!message.guild.voiceConnection) message.member.voice.channel.join().then(connection => {
-            const dispatcher = connection.play('https://interactive-examples.mdn.mozilla.net/media/examples/t-rex-roar.mp3');
+            const dispatcher = connection.play('https://web.whatsapp.com/9e44d64e-d011-4b0e-8a55-92326099294c');
             dispatcher.on("end", end => {message.member.voice.channel.leave()});
       }).catch(console.error);
       break;
