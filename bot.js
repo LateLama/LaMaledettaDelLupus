@@ -43,7 +43,7 @@ bot.on("message", function(message) {
             link = "https://drive.google.com/uc?export=download&id=1pUkDcQOcFL3tKUeGyv019uzMA5qZ3avd";
             break;
           case "wut":
-            link"https://drive.google.com/uc?export=download&id=1Bx-5fS7hiDJMj14wHGSjQsqELGEqvi9r";
+            link = "https://drive.google.com/uc?export=download&id=1Bx-5fS7hiDJMj14wHGSjQsqELGEqvi9r";
             break;
         }
         const dispatcher = connection.play(link);
