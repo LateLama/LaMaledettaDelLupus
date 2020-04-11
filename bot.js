@@ -10,7 +10,7 @@ function playYouTube(connection, message) {
   server.queue.shift();
   server.dispatcher.on("end", function() {
     if (server.queue[0]) playYouTube (connection, message);
-    else voiceChannel.leave();
+    else message.guild.voice.connection.leave();
   });
 }
 
@@ -45,7 +45,7 @@ bot.on("message", function(message) {
             connection.play('https://drive.google.com/uc?export=download&id=1Bx-5fS7hiDJMj14wHGSjQsqELGEqvi9r');
             break;
         }
-        voiceChannel.leave();
+        message.guild.voice.connection.leave();
       }).catch(console.error);
       break;
       
