@@ -50,7 +50,7 @@ bot.on("message", function(message) {
         dispatcher.on('finish', () => {
           message.member.voice.channel.leave();
         });
-      };
+      });
       break;
       
     //Musica
