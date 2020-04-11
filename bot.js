@@ -37,15 +37,18 @@ bot.on("message", function(message) {
         return;
       }
       if (!message.guild.voiceConnection) message.member.voice.channel.join().then(connection => {
+        const dispatcher;
         switch (args[0].toLowerCase()){
           case "drillo":
-            connection.play('https://drive.google.com/uc?export=download&id=1pUkDcQOcFL3tKUeGyv019uzMA5qZ3avd');
+            dispatcher = connection.play('https://drive.google.com/uc?export=download&id=1pUkDcQOcFL3tKUeGyv019uzMA5qZ3avd');
             break;
           case "wut":
-            connection.play('https://drive.google.com/uc?export=download&id=1Bx-5fS7hiDJMj14wHGSjQsqELGEqvi9r');
+            dispatcher = connection.play('https://drive.google.com/uc?export=download&id=1Bx-5fS7hiDJMj14wHGSjQsqELGEqvi9r');
             break;
         }
-        message.member.voice.channel.leave();
+        dispatcher.on("end", end => {
+          message.member.voice.channel.leave();
+        }).catch(console.error);
       }).catch(console.error);
       break;
       
