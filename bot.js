@@ -49,7 +49,7 @@ bot.on("message", function(message) {
         const dispatcher = connection.play(link);
         dispatcher.on('finish', () => {
           message.member.voice.channel.leave();
-        };
+        });
       };
       break;
       
