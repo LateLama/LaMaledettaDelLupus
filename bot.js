@@ -36,7 +36,7 @@ bot.on("message", function(message) {
         return;
       }
       if (!message.guild.voiceConnection) message.member.voiceChannel.join().then(connection => {
-            const dispatcher = connection.playFile('https://interactive-examples.mdn.mozilla.net/media/examples/t-rex-roar.mp3');
+            const dispatcher = connection.play('https://interactive-examples.mdn.mozilla.net/media/examples/t-rex-roar.mp3');
             dispatcher.on("end", end => {message.member.voiceChannel.leave()});
       }).catch(console.error);
       break;
