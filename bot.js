@@ -29,17 +29,6 @@ bot.on("message", function(message) {
   var args = message.content.substring(PREFIX.length).split(" ");
   switch (args[0].toLowerCase()){
     
-    //Audio.
-    case "audio":
-        if (!message.member.voiceChannel) {
-          message.channel.send("Devi essere in un canale vocale per ascoltare.")
-          return;
-        }
-        if (!message.guild.voiceConnection) message.member.voiceChannel.join().then(function(connection) { 
-          var audio = new Audio('https://interactive-examples.mdn.mozilla.net/media/examples/t-rex-roar.mp3');
-          audio.play();
-        });
-        break;
     //Musica
     case "play":
       if (!args[1]) {
