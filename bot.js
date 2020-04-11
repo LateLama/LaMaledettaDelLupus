@@ -3,7 +3,6 @@ const PREFIX = "!";
 const YTDL = require("ytdl-core");
 
 var bot = new Discord.Client();
-var contatoreTesoro = 0;
 var servers = {};
 function play(connection, message) {
   var server = servers[message.guild.id];
@@ -36,9 +35,10 @@ bot.on("message", function(message) {
           message.channel.send("Devi essere in un canale vocale per ascoltare.")
           return;
         }
-        if (!message.guild.voiceConnection) message.member.voiceChannel.join(); 
-        var audio = new Audio('https://interactive-examples.mdn.mozilla.net/media/examples/t-rex-roar.mp3');
-        audio.play();
+        if (!message.guild.voiceConnection) message.member.voiceChannel.join().then(function(connection) { 
+          var audio = new Audio('https://interactive-examples.mdn.mozilla.net/media/examples/t-rex-roar.mp3');
+          audio.play();
+        });
         break;
     //Musica
     case "play":
