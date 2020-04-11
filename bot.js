@@ -8,7 +8,7 @@ function playYouTube(connection, message) {
   var server = servers[message.guild.id];
   server.dispatcher = connection.play(YTDL(server.queue[0], {filter: "audioonly"}));
   server.queue.shift();
-  server.dispatcher.on("end", function() {
+  server.dispatcher.on('finish', () => {
     if (server.queue[0]) playYouTube (connection, message);
     else message.member.voice.channel.leave();
   });
@@ -47,7 +47,7 @@ bot.on("message", function(message) {
             break;
         }
         const dispatcher = connection.play(link);
-        dispatcher.on("end", end => {
+        dispatcher.on('finish', () => {
           message.member.voice.channel.leave();
         }).catch(console.error);
       }).catch(console.error);
