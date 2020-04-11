@@ -36,12 +36,14 @@ bot.on("message", function(message) {
         return;
       }
       if (!message.guild.voiceConnection) message.member.voice.channel.join().then(connection => {
-        case "drillo":
-          connection.play('https://drive.google.com/uc?export=download&id=1pUkDcQOcFL3tKUeGyv019uzMA5qZ3avd');
-          break;
-        case "wut":
-          connection.play('https://drive.google.com/uc?export=download&id=1Bx-5fS7hiDJMj14wHGSjQsqELGEqvi9r');
-          break;
+        switch (args[0].toLowerCase()){
+          case "drillo":
+            connection.play('https://drive.google.com/uc?export=download&id=1pUkDcQOcFL3tKUeGyv019uzMA5qZ3avd');
+            break;
+          case "wut":
+            connection.play('https://drive.google.com/uc?export=download&id=1Bx-5fS7hiDJMj14wHGSjQsqELGEqvi9r');
+            break;
+        }
         connection.leave();
       }).catch(console.error);
       break;
