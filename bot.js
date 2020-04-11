@@ -37,15 +37,16 @@ bot.on("message", function(message) {
         return;
       }
       if (!message.guild.voiceConnection) message.member.voice.channel.join().then(connection => {
-        const dispatcher;
         switch (args[0].toLowerCase()){
+            var link;
           case "drillo":
-            dispatcher = connection.play('https://drive.google.com/uc?export=download&id=1pUkDcQOcFL3tKUeGyv019uzMA5qZ3avd');
+            link = "https://drive.google.com/uc?export=download&id=1pUkDcQOcFL3tKUeGyv019uzMA5qZ3avd";
             break;
           case "wut":
-            dispatcher = connection.play('https://drive.google.com/uc?export=download&id=1Bx-5fS7hiDJMj14wHGSjQsqELGEqvi9r');
+            link"https://drive.google.com/uc?export=download&id=1Bx-5fS7hiDJMj14wHGSjQsqELGEqvi9r";
             break;
         }
+        const dispatcher = connection.play(link);
         dispatcher.on("end", end => {
           message.member.voice.channel.leave();
         }).catch(console.error);
