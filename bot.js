@@ -100,12 +100,12 @@ function argsCheck(args, message, answer) {
 
 //Connessione al canale vocale.
 function connectToChannel(message){
-    if (message.guild.voice.channel.joinable) return message.member.voice.channel.join();
+    if (!message.guild.voiceConnection) return message.member.voice.channel.join();
 }
 
 //Disconnessione del canale vocale.
 function disconnectFromChannel(message){
-    if (message.guild.voice.channel) message.member.voice.channel.leave();
+    if (message.guild.voiceConnection) message.member.voice.channel.leave();
 }
 
 //Riproduzione dell'audio dei video di Youtube.
