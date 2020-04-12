@@ -59,7 +59,9 @@ bot.on("message", function(message) {
             var server = servers[message.guild.id];
             server.queue.push(args[1]);
             //Riproduzione della canzone.
-            connectToChannel(message).then(function(connection) {
+            connectToChannel(message);
+            const connection = 
+            .then(function(connection) {
                 playYouTube(connection, message);
             });
             break;
@@ -100,12 +102,12 @@ function argsCheck(args, message, answer) {
 
 //Connessione al canale vocale.
 function connectToChannel(message){
-    message.member.voice.channel.join();
+    if (message.guild.voice.channel.joinable) return message.member.voice.channel.join();
 }
 
 //Disconnessione del canale vocale.
 function disconnectFromChannel(message){
-    message.member.voice.channel.leave();
+    if (message.guild.voice.channel) message.member.voice.channel.leave();
 }
 
 //Riproduzione dell'audio dei video di Youtube.
