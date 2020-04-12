@@ -52,8 +52,7 @@ bot.on("message", function(message) {
                     message.member.voice.channel.leave();
                 });
             });
-        });
-        break;
+            break;
 
         //Musica
         case "play":
