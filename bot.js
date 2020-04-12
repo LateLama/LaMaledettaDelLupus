@@ -59,9 +59,7 @@ bot.on("message", function(message) {
             var server = servers[message.guild.id];
             server.queue.push(args[1]);
             //Riproduzione della canzone.
-            connectToChannel(message);
-            const connection = 
-            .then(function(connection) {
+            connectToChannel(message).then(function(connection) {
                 playYouTube(connection, message);
             });
             break;
