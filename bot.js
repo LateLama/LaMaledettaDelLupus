@@ -27,8 +27,8 @@ bot.on("message", function(message) {
     switch (args[0].toLowerCase()){      
         //File audio  
         case "sound":
-            channelCheck(message);
-            argsCheck(args, message, "Devi specificare un suono.");
+            if(!channelCheck(message)) break;
+            if (!argsCheck(args, message, "Devi specificare un suono.")) break;
             //Link clip audio in base al comando.
             var link;
             switch (args[1].toLowerCase()){
@@ -52,8 +52,8 @@ bot.on("message", function(message) {
             break;
         //Musica
         case "play":
-            channelCheck(message);
-            argsCheck(args, message, "Devi specificare un link.");
+            if(!channelCheck(message)) break;
+            if(!argsCheck(args, message, "Devi specificare un link.")) break;
             //Aggiungere la canzone alla coda.
             if(!servers[message.guild.id]) servers[message.guild.id] = {queue:[]};
             var server = servers[message.guild.id];
@@ -86,16 +86,18 @@ function sendMessage(message, answer) {
 function channelCheck(message) {
     if (!message.member.voice.channel) {
         sendMessage(message, "Devi essere in un canale vocale.");
-        return;
+        return false;
     }   
+    return true;
 }
 
 //Controllo link o nome file.
 function argsCheck(args, message, answer) {
     if (!args[1]) {
         sendMessage(message, answer);
-        break;
+        return false;
     }
+    return true;
 }
 
 //Connessione al canale vocale.
