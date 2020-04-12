@@ -17,7 +17,7 @@ bot.on("ready", function() {
     console.log("Pronto!");
 });
 
-bot.on("message", function(message, connection) {
+bot.on("message", function(message) {
     //Salta i messaggi del bot stesso.
     if (message.author.equals(bot.user)) return;
     //Controllo del prefisso per i comandi.
@@ -43,7 +43,7 @@ bot.on("message", function(message, connection) {
                     return;
             }  
             //Connessione e riproduzione del file.
-            connectToChannel(message, connection).then(function(connection) {
+            connectToChannel(message).then(function(connection) {
                 const dispatcher = connection.play(link);
                 dispatcher.on('finish', () => {
                     disconnectFromChannel(message);
@@ -59,7 +59,7 @@ bot.on("message", function(message, connection) {
             var server = servers[message.guild.id];
             server.queue.push(args[1]);
             //Riproduzione della canzone.
-            connectToChannel(message, connection).then(function(connection) {
+            connectToChannel(message).then(function(connection) {
                 playYouTube(connection, message);
             });
             break;
@@ -99,8 +99,8 @@ function argsCheck(args, message, answer) {
 }
 
 //Connessione al canale vocale.
-function connectToChannel(message, connection){
-    if (!message.guild.voice.connection) message.member.voice.channel.join();
+function connectToChannel(message){
+    if (!message.guild.voice) message.member.voice.channel.join();
 }
 
 //Disconnessione del canale vocale.
