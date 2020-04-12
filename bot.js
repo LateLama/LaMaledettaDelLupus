@@ -28,8 +28,7 @@ bot.on("message", function(message) {
         //File audio  
         case "sound":
             channelCheck(message);
-            if(argsCheck(args, message, "Devi specificare un suono.") === "miamazon") break;
-
+            argsCheck(args, message, "Devi specificare un suono.");
             //Link clip audio in base al comando.
             var link;
             switch (args[1].toLowerCase()){
@@ -95,8 +94,8 @@ function channelCheck(message) {
 function argsCheck(args, message, answer) {
     if (!args[1]) {
         sendMessage(message, answer);
+        break;
     }
-    return "miamazon";
 }
 
 //Connessione al canale vocale.
