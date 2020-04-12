@@ -50,8 +50,8 @@ bot.on("message", function(message) {
 
         //Musica
         case "play":
-            channelCheck();
-            linkCheck();
+            channelCheck(message);
+            linkCheck(message);
             if(!servers[message.guild.id]) servers[message.guild.id] = {queue:[]};
             var server = servers[message.guild.id];
             server.queue.push(args[1]);
@@ -77,7 +77,7 @@ bot.on("message", function(message) {
 
 
 //Controllo del canale vocale.
-function channelCheck() {
+function channelCheck(message) {
     if (!message.member.voice.channel) {
         message.channel.send("Devi essere in un canale vocale.")
         return;
@@ -85,7 +85,7 @@ function channelCheck() {
 }
 
 //Controllo link.
-function linkCheck() {
+function linkCheck(message) {
     if (!args[1]) {
         message.channel.send("Mi serve un link.");
         return;
