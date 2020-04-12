@@ -100,7 +100,7 @@ function argsCheck(args, message, answer) {
 
 //Connessione al canale vocale.
 function connectToChannel(message){
-    if (!message.guild.voice) message.member.voice.channel.join();
+    if (!message.guild.voiceConnection) message.member.voice.channel.join();
 }
 
 //Disconnessione del canale vocale.
