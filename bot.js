@@ -20,90 +20,86 @@ bot.on("ready", function() {
 bot.on("message", function(message) {
     //Salta i messaggi del bot stesso.
     if (message.author.equals(bot.user)) return;
-
     //Controllo del prefisso per i comandi.
     if (!message.content.startsWith(PREFIX)) return;
-
-    var args = message.content.substring(PREFIX.length).split(" ");
-
     //Comandi.
+    var args = message.content.substring(PREFIX.length).split(" ");
     switch (args[0].toLowerCase()){      
         //File audio  
         case "sound":
             channelCheck(message);
-            connectToChannel(message).then(function(connection) {
-                var link;
-
-                //Link clip audio in base al comando.
-                switch (args[1].toLowerCase()){
-                    case "drillo":
-                        link = "https://drive.google.com/uc?export=download&id=1pUkDcQOcFL3tKUeGyv019uzMA5qZ3avd";
-                        break;
-                    case "wut":
-                        link = "https://drive.google.com/uc?export=download&id=1Bx-5fS7hiDJMj14wHGSjQsqELGEqvi9r";
-                        break;
-                    default: 
-                        message.channel.send("Devi specificare il suono da riprodurre.");
-                }
-
-                //Riprodurre il file.
+            argsCheck(args, message, "Devi specificare un suono.");
+            //Link clip audio in base al comando.
+            var link;
+            switch (args[1].toLowerCase()){
+                case "drillo":
+                    link = "https://drive.google.com/uc?export=download&id=1pUkDcQOcFL3tKUeGyv019uzMA5qZ3avd";
+                    break;
+                case "wut":
+                    link = "https://drive.google.com/uc?export=download&id=1Bx-5fS7hiDJMj14wHGSjQsqELGEqvi9r";
+                    break;
+                default: 
+                    sendMessage("Non esiste quel suono.");
+                    return;
+            }  
+            //Connessione e riproduzione del file.
+            connectToChannel(message, connection).then(function(connection) {
                 const dispatcher = connection.play(link);
                 dispatcher.on('finish', () => {
-                    message.member.voice.channel.leave();
+                    disconnectFromChannel(message);
                 });
             });
             break;
-
         //Musica
         case "play":
             channelCheck(message);
-            linkCheck(args, message);
-
+            argsCheck(args, message, "Devi specificare un link.");
             //Aggiungere la canzone alla coda.
             if(!servers[message.guild.id]) servers[message.guild.id] = {queue:[]};
             var server = servers[message.guild.id];
             server.queue.push(args[1]);
-
-            //Riproducere la canzone.
-            connectToChannel(message).then(function(connection) {
+            //Riproduzione della canzone.
+            connectToChannel(message, connection).then(function(connection) {
                 playYouTube(connection, message);
             });
             break;
-
         case "skip":
             var server = servers[message.guild.id];
             if (server.dispatcher) server.dispatcher.end();
             break;
-
         case "stop":
             var server = servers[message.guild.id];
             disconnectFromChannel(message);
             break;
-
         default:
-           message.channel.send("Comando non valido.");
+           sendMessage("Comando non valido.");
     }
 });
+
+//Inviare messaggi.
+function sendMessage(message) {
+    message.reply(message);
+}
 
 
 //Controllo del canale vocale.
 function channelCheck(message) {
     if (!message.member.voice.channel) {
-        message.channel.send("Devi essere in un canale vocale.")
+        sendMessage("Devi essere in un canale vocale.");
         return;
     }   
 }
 
-//Controllo link.
-function linkCheck(args, message) {
+//Controllo link o nome file.
+function argsCheck(args, message, answer) {
     if (!args[1]) {
-        message.channel.send("Mi serve un link.");
+        sendMessage(answer);
         return;
     }
 }
 
 //Connessione al canale vocale.
-function connectToChannel(message){
+function connectToChannel(message, connection){
     if (!message.guild.voice.connection) message.member.voice.channel.join();
 }
 
