@@ -85,7 +85,7 @@ function channelCheck(message) {
 }
 
 //Controllo link.
-function linkCheck(message) {
+function linkCheck(args, message) {
     if (!args[1]) {
         message.channel.send("Mi serve un link.");
         return;
