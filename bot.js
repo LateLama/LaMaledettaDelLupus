@@ -51,7 +51,7 @@ bot.on("message", function(message) {
         //Musica
         case "play":
             channelCheck(message);
-            linkCheck(message);
+            linkCheck(args, message);
             if(!servers[message.guild.id]) servers[message.guild.id] = {queue:[]};
             var server = servers[message.guild.id];
             server.queue.push(args[1]);
