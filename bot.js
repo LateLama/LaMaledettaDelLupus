@@ -1,3 +1,6 @@
+//Bot del server del Covo.
+
+//Import.
 const Discord = require("discord.js");
 const YTDL = require("ytdl-core");
 
@@ -15,7 +18,7 @@ bot.on("ready", function() {
 });
 
 bot.on("message", function(message) {
-    //Skippa i messaggi del bot stesso.
+    //Salta i messaggi del bot stesso.
     if (message.author.equals(bot.user)) return;
 
     //Controllo del prefisso per i comandi.
@@ -23,27 +26,31 @@ bot.on("message", function(message) {
 
     var args = message.content.substring(PREFIX.length).split(" ");
 
+    //Comandi.
     switch (args[0].toLowerCase()){      
         //File audio  
-        case "drillo":
-        case "wut":
-            if (!message.member.voice.channel) {
-            message.channel.send("Devi essere in un canale vocale.")
-            return;
-            }
-            if (!message.guild.voiceConnection) message.member.voice.channel.join().then(connection => {
-            var link;
-            switch (args[0].toLowerCase()){
-                case "drillo":
-                link = "https://drive.google.com/uc?export=download&id=1pUkDcQOcFL3tKUeGyv019uzMA5qZ3avd";
-                break;
-                case "wut":
-                link = "https://drive.google.com/uc?export=download&id=1Bx-5fS7hiDJMj14wHGSjQsqELGEqvi9r";
-                break;
-            }
-            const dispatcher = connection.play(link);
-            dispatcher.on('finish', () => {
-                message.member.voice.channel.leave();
+        case "sound":
+            channelCheck(message);
+            connectToChannel(message).then(function(connection) {
+                var link;
+
+                //Link clip audio in base al comando.
+                switch (args[1].toLowerCase()){
+                    case "drillo":
+                        link = "https://drive.google.com/uc?export=download&id=1pUkDcQOcFL3tKUeGyv019uzMA5qZ3avd";
+                        break;
+                    case "wut":
+                        link = "https://drive.google.com/uc?export=download&id=1Bx-5fS7hiDJMj14wHGSjQsqELGEqvi9r";
+                        break;
+                    default: 
+                        message.channel.send("Devi specificare il suono da riprodurre.");
+                }
+
+                //Riprodurre il file.
+                const dispatcher = connection.play(link);
+                dispatcher.on('finish', () => {
+                    message.member.voice.channel.leave();
+                });
             });
         });
         break;
@@ -52,26 +59,30 @@ bot.on("message", function(message) {
         case "play":
             channelCheck(message);
             linkCheck(args, message);
+
+            //Aggiungere la canzone alla coda.
             if(!servers[message.guild.id]) servers[message.guild.id] = {queue:[]};
             var server = servers[message.guild.id];
             server.queue.push(args[1]);
-            /*
-            if (!message.guild.voiceConnection) message.member.voice.channel.join().then(function(connection) {
+
+            //Riproducere la canzone.
+            connectToChannel(message).then(function(connection) {
                 playYouTube(connection, message);
             });
-            */
             break;
+
         case "skip":
-        var server = servers[message.guild.id];
-        if (server.dispatcher) server.dispatcher.end();
-        break;
+            var server = servers[message.guild.id];
+            if (server.dispatcher) server.dispatcher.end();
+            break;
+
         case "stop":
-        var server = servers[message.guild.id];
-        if (message.guild.voice.connection) message.member.voice.channel.leave();
-        break;
+            var server = servers[message.guild.id];
+            disconnectFromChannel(message);
+            break;
 
         default:
-        message.channel.send("Comando non valido.");
+           message.channel.send("Comando non valido.");
     }
 });
 
@@ -92,6 +103,16 @@ function linkCheck(args, message) {
     }
 }
 
+//Connessione al canale vocale.
+function connectToChannel(message){
+    if (!message.guild.voice.connection) message.member.voice.channel.join();
+}
+
+//Disconnessione del canale vocale.
+function disconnectFromChannel(message){
+    if (message.guild.voice.connection) message.member.voice.channel.leave();
+}
+
 //Riproduzione dell'audio dei video di Youtube.
 function playYouTube(connection, message) {
     var server = servers[message.guild.id];
@@ -99,6 +120,6 @@ function playYouTube(connection, message) {
     server.queue.shift();
     server.dispatcher.on('finish', () => {
         if (server.queue[0]) playYouTube (connection, message);
-        else message.member.voice.channel.leave();
+        else disconnectFromChannel(message);
     });
 }
