@@ -3,20 +3,15 @@
 //Import.
 const Discord = require("discord.js");
 const YTDL = require("ytdl-core");
-
 //Il prefisso per controllare i comandi.
 const PREFIX = "!";
-
 var bot = new Discord.Client();
 var servers = {};
-
 bot.login(process.env.BOT_TOKEN);
-
 //Quando il bot è pronto, lo annuncia nel prompt.
 bot.on("ready", function() {
     console.log("Pronto!");
 });
-
 bot.on("message", function(message) {
     //Salta i messaggi del bot stesso.
     if (message.author.equals(bot.user)) return;
@@ -27,7 +22,7 @@ bot.on("message", function(message) {
     switch (args[0].toLowerCase()){      
         //File audio  
         case "sound":
-            if(!channelCheck(message)) break;
+            if (!channelCheck(message)) break;
             if (!argsCheck(args, message, "Devi specificare un suono.")) break;
             //Link clip audio in base al comando.
             var link;
@@ -37,6 +32,9 @@ bot.on("message", function(message) {
                     break;
                 case "wut":
                     link = "https://drive.google.com/uc?export=download&id=1Bx-5fS7hiDJMj14wHGSjQsqELGEqvi9r";
+                    break;
+                case "kekw":
+                    link = "https://drive.google.com/uc?export=download&id=1pzyq45J-joUYCSXIXiEa7CLmmInlvhvs";
                     break;
                 default: 
                     sendMessage(message, "Non esiste quel suono.");
@@ -52,10 +50,10 @@ bot.on("message", function(message) {
             break;
         //Musica
         case "play":
-            if(!channelCheck(message)) break;
-            if(!argsCheck(args, message, "Devi specificare un link.")) break;
+            if (!channelCheck(message)) break;
+            if (!argsCheck(args, message, "Devi specificare un link.")) break;
             //Aggiungere la canzone alla coda.
-            if(!servers[message.guild.id]) servers[message.guild.id] = {queue:[]};
+            if (!servers[message.guild.id]) servers[message.guild.id] = {queue:[]};
             var server = servers[message.guild.id];
             server.queue.push(args[1]);
             //Riproduzione della canzone.
