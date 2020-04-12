@@ -39,7 +39,7 @@ bot.on("message", function(message) {
                     link = "https://drive.google.com/uc?export=download&id=1Bx-5fS7hiDJMj14wHGSjQsqELGEqvi9r";
                     break;
                 default: 
-                    sendMessage("Non esiste quel suono.");
+                    sendMessage(message, "Non esiste quel suono.");
                     return;
             }  
             //Connessione e riproduzione del file.
@@ -72,20 +72,20 @@ bot.on("message", function(message) {
             disconnectFromChannel(message);
             break;
         default:
-           sendMessage("Comando non valido.");
+           sendMessage(message, "Comando non valido.");
     }
 });
 
 //Inviare messaggi.
-function sendMessage(message) {
-    message.reply(message);
+function sendMessage(message, answer) {
+    message.reply(answer);
 }
 
 
 //Controllo del canale vocale.
 function channelCheck(message) {
     if (!message.member.voice.channel) {
-        sendMessage("Devi essere in un canale vocale.");
+        sendMessage(message, "Devi essere in un canale vocale.");
         return;
     }   
 }
@@ -93,7 +93,7 @@ function channelCheck(message) {
 //Controllo link o nome file.
 function argsCheck(args, message, answer) {
     if (!args[1]) {
-        sendMessage(answer);
+        sendMessage(message, answer);
         return;
     }
 }
@@ -105,7 +105,7 @@ function connectToChannel(message){
 
 //Disconnessione del canale vocale.
 function disconnectFromChannel(message){
-    if (message.guild.voiceConnection) message.member.voice.channel.leave();
+    if (message.guild.voiceConnection.status === 0) message.member.voice.channel.leave();
 }
 
 //Riproduzione dell'audio dei video di Youtube.
