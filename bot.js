@@ -17,7 +17,7 @@ bot.on("ready", function() {
     console.log("Pronto!");
 });
 
-bot.on("message", function(message) {
+bot.on("message", function(message, connection) {
     //Salta i messaggi del bot stesso.
     if (message.author.equals(bot.user)) return;
     //Controllo del prefisso per i comandi.
