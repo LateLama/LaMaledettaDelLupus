@@ -105,7 +105,7 @@ function connectToChannel(message){
 
 //Disconnessione del canale vocale.
 function disconnectFromChannel(message){
-    if (message.guild.voiceConnection.status === 0) message.member.voice.channel.leave();
+    if (message.guild.voiceConnection.voiceStatus === 0) message.member.voice.channel.leave();
 }
 
 //Riproduzione dell'audio dei video di Youtube.
