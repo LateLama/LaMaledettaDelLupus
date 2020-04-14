@@ -3,7 +3,7 @@
 //Import.
 const Discord = require("discord.js");
 const YTDL = require("ytdl-core");
-//Il prefisso per controllare i comandi.
+//Variabili.
 const PREFIX = "!";
 var bot = new Discord.Client();
 var servers = {};
@@ -76,7 +76,7 @@ bot.on("message", function(message) {
             server.queue.push(args[1]);
             //Riproduzione della canzone.
             connectToChannel(message).then(function(connection) {
-                playYouTube(connection, message);
+                playYouTube(connection, message, server);
             });
             break;
         case "skip":
@@ -91,13 +91,10 @@ bot.on("message", function(message) {
            sendMessage(message, "Comando non valido.");
     }
 });
-
 //Inviare messaggi.
 function sendMessage(message, answer) {
     message.reply(answer);
 }
-
-
 //Controllo del canale vocale.
 function channelCheck(message) {
     if (!message.member.voice.channel) {
@@ -106,7 +103,6 @@ function channelCheck(message) {
     }   
     return true;
 }
-
 //Controllo link o nome file.
 function argsCheck(args, message, answer) {
     if (!args[1]) {
@@ -115,20 +111,16 @@ function argsCheck(args, message, answer) {
     }
     return true;
 }
-
 //Connessione al canale vocale.
 function connectToChannel(message){
     return message.member.voice.channel.join();
 }
-
 //Disconnessione del canale vocale.
 function disconnectFromChannel(message){
-    message.member.voice.channel.leave();
+    message.guild.me.voice.channel.leave();
 }
-
 //Riproduzione dell'audio dei video di Youtube.
-function playYouTube(connection, message) {
-    var server = servers[message.guild.id];
+function playYouTube(connection, message, server) {
     server.dispatcher = connection.play(YTDL(server.queue[0], {filter: "audioonly"}));
     server.queue.shift();
     server.dispatcher.setVolume(0.25);
