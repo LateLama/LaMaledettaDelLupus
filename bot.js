@@ -131,6 +131,7 @@ function playYouTube(connection, message) {
     var server = servers[message.guild.id];
     server.dispatcher = connection.play(YTDL(server.queue[0], {filter: "audioonly"}));
     server.queue.shift();
+    server.dispatcher.setVolume(0.25);
     server.dispatcher.on('finish', () => {
         if (server.queue[0]) playYouTube (connection, message);
         else disconnectFromChannel(message);
