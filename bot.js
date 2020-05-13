@@ -31,7 +31,7 @@ bot.on("message", function (message) {
 					link = link.concat("16p4CjTz2gLdfR-hejGaezR42WLGal0wX");
 					break;
 				case "bene":
-					link = link.concat("1Bx-5fS7hiDJMj14wHGSjQsqELGEqvi9r");
+					link = link.concat("1VsE2Ehs5_6SRVzBoEa6aSJQ0qywfY9co");
 					break;
 				case "drillo":
 					link = link.concat("1pUkDcQOcFL3tKUeGyv019uzMA5qZ3avd");
