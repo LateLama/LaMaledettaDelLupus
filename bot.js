@@ -52,7 +52,7 @@ bot.on("message", function (message) {
 			queue.push(args[1]);
 			//Riproduzione della canzone.
 			connectToChannel(message).then(function (connection) {
-				playYouTube(connection, message, queue);
+				playYouTube(connection, message);
 			});
 			break;
 		case "skip":
@@ -102,7 +102,7 @@ function disconnectFromChannel(message) {
 	message.guild.me.voice.channel.leave();
 }
 //Riproduzione dell'audio dei video di Youtube.
-function playYouTube(connection, message, server) {
+function playYouTube(connection, message) {
 	if (!dispatcher) {
 		dispatcher = connection.play(YTDL(queue[0], { filter: "audioonly" }));
 	}
