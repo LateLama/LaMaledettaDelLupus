@@ -6,7 +6,7 @@ const YTDL = require("ytdl-core");
 //Variabili.
 const PREFIX = "!";
 let servers = {};
-let listaSuoni = require("./listaSouni.json");
+let listaSuoni = require("./listaSuoni.json");
 //Inizializzazione bot.
 const bot = new Discord.Client();
 bot.login(process.env.BOT_TOKEN);
