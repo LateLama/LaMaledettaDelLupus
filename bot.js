@@ -6,7 +6,6 @@ const YTDL = require("ytdl-core");
 const listaSuoni = require("./listaSuoni.json");
 //Variabili.
 const PREFIX = "!";
-const queue = [];
 let dispatcher = 0;
 //Inizializzazione bot.
 const bot = new Discord.Client();
@@ -38,7 +37,6 @@ bot.on("message", function (message) {
 			//Connessione e riproduzione del file.
 			connectToChannel(message).then(function (connection) {
 				dispatcher = connection.play(link);
-				queue.length = 0;
 				dispatcher.on("finish", () => {
 					disconnectFromChannel(message);
 				});
@@ -53,18 +51,7 @@ bot.on("message", function (message) {
 				playYouTube(connection, message, args[1]);
 			});
 			break;
-		case "skip":
-			if (!queue[0]) {
-				sendMessage(message, "Non c'è niente in coda.");
-				break;
-			}
-			if (dispatcher) dispatcher.end();
-			break;
 		case "stop":
-			if (!queue[0]) {
-				sendMessage(message, "Non c'è niente in riproduzione.");
-				break;
-			}
 			disconnectFromChannel(message);
 			break;
 		default:
@@ -101,16 +88,9 @@ function disconnectFromChannel(message) {
 }
 //Riproduzione dell'audio dei video di Youtube.
 function playYouTube(connection, message, song) {
-	if (!queue[0]) {
-		queue.push(song);
-		dispatcher = connection.play(YTDL(queue[0], { filter: "audioonly" }));
-	} else {
-		queue.push(song);
-	}
+	dispatcher = connection.play(YTDL(song, { filter: "audioonly" }));
 	dispatcher.setVolume(0.25);
 	dispatcher.on("finish", () => {
-		queue.shift();
-		if (queue[0]) playYouTube(connection, message);
-		else disconnectFromChannel(message);
+		disconnectFromChannel(message);
 	});
 }
