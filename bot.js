@@ -57,7 +57,11 @@ bot.on("message", function (message) {
 			});
 			break;
 		case "skip":
-			if (typeof server === undefined || !server.queue[0]) {
+			if (typeof server === undefined) {
+				sendMessage(message, "Non c'è niente in coda.");
+				break;
+			}
+			if (!server.queue[0]) {
 				sendMessage(message, "Non c'è niente in coda.");
 				break;
 			}
