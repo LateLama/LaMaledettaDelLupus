@@ -24,7 +24,7 @@ bot.on("message", function (message) {
 		//File audio
 		case "help":
 			const embedAiuto = new Discord.MessageEmbed()
-				.setcolor("#ed5555")
+				.setColor("#ed5555")
 				.setTitle("Guida al bot")
 				.setAuthor(
 					"La Troia del Lupus",
