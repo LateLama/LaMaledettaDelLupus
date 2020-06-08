@@ -7,7 +7,7 @@ const listaSuoni = require("./listaSuoni.json");
 //Variabili.
 const PREFIX = "!";
 const queue = [];
-let dispatcher;
+let dispatcher = 0;
 //Inizializzazione bot.
 const bot = new Discord.Client();
 bot.login(process.env.BOT_TOKEN);
@@ -37,7 +37,7 @@ bot.on("message", function (message) {
 			}
 			//Connessione e riproduzione del file.
 			connectToChannel(message).then(function (connection) {
-				const dispatcher = connection.play(link);
+				dispatcher = connection.play(link);
 				dispatcher.on("finish", () => {
 					disconnectFromChannel(message);
 				});
