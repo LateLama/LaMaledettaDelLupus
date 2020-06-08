@@ -5,7 +5,7 @@ const Discord = require("discord.js");
 const YTDL = require("ytdl-core");
 //Variabili.
 const PREFIX = "!";
-let servers = {};
+const queue: [];
 let listaSuoni = require("./listaSuoni.json");
 //Inizializzazione bot.
 const bot = new Discord.Client();
@@ -47,28 +47,24 @@ bot.on("message", function (message) {
 			if (!channelCheck(message)) break;
 			if (!argsCheck(args, message, "Devi specificare un link.")) break;
 			//Aggiungere la canzone alla coda.
-			if (!servers[message.guild.id])
-				servers[message.guild.id] = { queue: [] };
-			var server = servers[message.guild.id];
-			server.queue.push(args[1]);
+			queue.push(args[1]);
 			//Riproduzione della canzone.
 			connectToChannel(message).then(function (connection) {
-				playYouTube(connection, message, server);
+				playYouTube(connection, message, queue);
 			});
 			break;
 		case "skip":
-			if (typeof server === undefined || typeof server.queue[0]) {
+			if (!queue[0]) {
 				sendMessage(message, "Non c'è niente in coda.");
 				break;
 			}
-			if (server.dispatcher) server.dispatcher.end();
+			if (dispatcher) dispatcher.end();
 			break;
 		case "stop":
-			if (typeof server === undefined) {
+			if (!queue[0]) {
 				sendMessage(message, "Non c'è niente in riproduzione.");
 				break;
 			}
-			server = servers[message.guild.id];
 			disconnectFromChannel(message);
 			break;
 		default:
@@ -105,13 +101,13 @@ function disconnectFromChannel(message) {
 }
 //Riproduzione dell'audio dei video di Youtube.
 function playYouTube(connection, message, server) {
-	server.dispatcher = connection.play(
-		YTDL(server.queue[0], { filter: "audioonly" })
+	let dispatcher = connection.play(
+		YTDL(queue[0], { filter: "audioonly" })
 	);
-	server.queue.shift();
-	server.dispatcher.setVolume(0.25);
-	server.dispatcher.on("finish", () => {
-		if (server.queue[0]) playYouTube(connection, message);
+	dispatcher.setVolume(0.25);
+	dispatcher.on("finish", () => {
+		queue.shift();
+		if (queue[0]) playYouTube(connection, message);
 		else disconnectFromChannel(message);
 	});
 }
