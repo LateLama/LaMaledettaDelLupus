@@ -26,12 +26,32 @@ bot.on("message", function (message) {
 			const embedAiuto = new Discord.MessageEmbed()
 				.setColor("#ed5555")
 				.setTitle("Guida al bot")
-				.setAuthor(
-					"La Troia del Lupus",
-					"https://cdn.discordapp.com/avatars/413166499109535744/581636b0898d349f2b811f1b00d2ef69.png?size=128"
-				)
 				.setDescription(
-					"Ciao! Sono il bot del server del covoh.\nQuesto è quello che posso fare:\n**!sound** + nomeSuono -> Riproduce il suono selezionato.\n**!listaSuoni** -> Invia la lista dei suoni disponibili.\n**!play** + link -> Riproduce l'audio del video di YouTube selezionato.\n**!stop** -> Ferma la riproduzione del video.\nRicorda che tutti i comandi iniziano con ! e che per alcuni bisogna essere connessi ad un canale vocale."
+					"Ciao! Sono il bot del server del covoh.\nQuesto è quello che posso fare:**!stop** -> Ferma la riproduzione del video."
+				)
+				.addFields(
+					{
+						name: "**!sound** + nomeSuono",
+						value: "Riproduce il suono selezionato.",
+					},
+					{
+						name: "**!listaSuoni**",
+						value: "Invia la lista dei suoni disponibili.",
+					},
+					{
+						name: "**!play** + link",
+						value:
+							"Riproduce l'audio del video di YouTube selezionato.",
+					},
+					{
+						name: "**!stop**",
+						value: "Ferma la riproduzione dell'audio.",
+					},
+					{
+						name: "\u200B",
+						value:
+							"Ricorda che tutti i comandi iniziano con ! e che per alcuni bisogna essere connessi ad un canale vocale.",
+					}
 				);
 			message.channel.send(embedAiuto);
 			break;
