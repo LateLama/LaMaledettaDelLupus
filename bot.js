@@ -49,7 +49,7 @@ bot.on("message", function (message) {
 			//Aggiungere la canzone alla coda.
 			if (!servers[message.guild.id])
 				servers[message.guild.id] = { queue: [] };
-			let server = servers[message.guild.id];
+			var server = servers[message.guild.id];
 			server.queue.push(args[1]);
 			//Riproduzione della canzone.
 			connectToChannel(message).then(function (connection) {
