@@ -48,11 +48,9 @@ bot.on("message", function (message) {
 		case "play":
 			if (!channelCheck(message)) break;
 			if (!argsCheck(args, message, "Devi specificare un link.")) break;
-			//Aggiungere la canzone alla coda.
-			queue.push(args[1]);
 			//Riproduzione della canzone.
 			connectToChannel(message).then(function (connection) {
-				playYouTube(connection, message);
+				playYouTube(connection, message, args[1]);
 			});
 			break;
 		case "skip":
@@ -102,14 +100,16 @@ function disconnectFromChannel(message) {
 	message.guild.me.voice.channel.leave();
 }
 //Riproduzione dell'audio dei video di Youtube.
-function playYouTube(connection, message) {
-	if (!dispatcher) {
+function playYouTube(connection, message, song) {
+	if (!queue[0]) {
+		queue.push(song);
 		dispatcher = connection.play(YTDL(queue[0], { filter: "audioonly" }));
+	} else {
+		queue.push(song);
 	}
 	dispatcher.setVolume(0.25);
 	dispatcher.on("finish", () => {
 		queue.shift();
-		dispatcher = 0;
 		if (queue[0]) playYouTube(connection, message);
 		else disconnectFromChannel(message);
 	});
