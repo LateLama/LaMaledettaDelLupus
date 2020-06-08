@@ -22,6 +22,19 @@ bot.on("message", function (message) {
 	let args = message.content.substring(PREFIX.length).split(" ");
 	switch (args[0].toLowerCase()) {
 		//File audio
+		case "help":
+			const embedAiuto = new Discord.MessageEmbed()
+				.setcolor("#ed5555")
+				.setTitle("Guida al bot")
+				.setAuthor(
+					"La Troia del Lupus",
+					"https://cdn.discordapp.com/avatars/413166499109535744/581636b0898d349f2b811f1b00d2ef69.png?size=128"
+				)
+				.setDescription(
+					"Ciao! Sono il bot del server del covoh.\nQuesto è quello che posso fare:\n**!sound** + nomeSuono -> Riproduce il suono selezionato.\n**!listaSuoni** -> Invia la lista dei suoni disponibili.\n**!play** + link -> Riproduce l'audio del video di YouTube selezionato.\n**!stop** -> Ferma la riproduzione del video.\nRicorda che tutti i comandi iniziano con ! e che per alcuni bisogna essere connessi ad un canale vocale."
+				);
+			message.channel.send(embedAiuto);
+			break;
 		case "sound":
 			if (!channelCheck(message)) break;
 			if (!argsCheck(args, message, "Devi specificare un suono.")) break;
@@ -30,7 +43,10 @@ bot.on("message", function (message) {
 			if (listaSuoni.hasOwnProperty(args[1])) {
 				link = link.concat(listaSuoni[args[1]]);
 			} else {
-				sendMessage(message, "Non esiste quel suono.");
+				sendMessage(
+					message,
+					"Non esiste quel suono. Puoi controllare la lista dei suoni con !listaSuoni."
+				);
 				break;
 			}
 			//Connessione e riproduzione del file.
@@ -58,7 +74,10 @@ bot.on("message", function (message) {
 			disconnectFromChannel(message);
 			break;
 		default:
-			sendMessage(message, "Comando non valido.");
+			sendMessage(
+				message,
+				"Comando non valido. Prova a scrivere !help per una lista dei comandi."
+			);
 	}
 });
 //Inviare messaggi.
@@ -92,7 +111,7 @@ function disconnectFromChannel(message) {
 //Riproduzione dell'audio dei video di Youtube.
 function playYouTube(connection, message, song) {
 	dispatcher = connection.play(YTDL(song, { filter: "audioonly" }));
-	dispatcher.setVolume(0.30);
+	dispatcher.setVolume(0.3);
 	dispatcher.on("finish", () => {
 		disconnectFromChannel(message);
 	});
