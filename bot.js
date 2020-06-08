@@ -38,6 +38,7 @@ bot.on("message", function (message) {
 			//Connessione e riproduzione del file.
 			connectToChannel(message).then(function (connection) {
 				dispatcher = connection.play(link);
+				queue.length = 0;
 				dispatcher.on("finish", () => {
 					disconnectFromChannel(message);
 				});
@@ -102,7 +103,9 @@ function disconnectFromChannel(message) {
 }
 //Riproduzione dell'audio dei video di Youtube.
 function playYouTube(connection, message, server) {
-	dispatcher = connection.play(YTDL(queue[0], { filter: "audioonly" }));
+	if (!dispatcher) {
+		dispatcher = connection.play(YTDL(queue[0], { filter: "audioonly" }));
+	}
 	dispatcher.setVolume(0.25);
 	dispatcher.on("finish", () => {
 		queue.shift();
