@@ -5,7 +5,7 @@ const Discord = require("discord.js");
 const YTDL = require("ytdl-core");
 //Variabili.
 const PREFIX = "!";
-const queue: [];
+const queue = [];
 let listaSuoni = require("./listaSuoni.json");
 //Inizializzazione bot.
 const bot = new Discord.Client();
