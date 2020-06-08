@@ -6,7 +6,7 @@ const YTDL = require("ytdl-core");
 //Variabili.
 const PREFIX = "!";
 let servers = {};
-let listaSuoni = require("./listaSuoni.json");
+let listaSuoni = require("./listaSouni.json");
 //Inizializzazione bot.
 const bot = new Discord.Client();
 bot.login(process.env.BOT_TOKEN);
@@ -26,49 +26,14 @@ bot.on("message", function (message) {
 		case "sound":
 			if (!channelCheck(message)) break;
 			if (!argsCheck(args, message, "Devi specificare un suono.")) break;
-			//Link clip audio in base al comando.
 			let link = "https://drive.google.com/uc?export=download&id=";
+			//Controllo dell'esistenza del suono.
 			if (listaSuoni.hasOwnProperty(args[1])) {
 				link = link.concat(listaSuoni[args[1]]);
 			} else {
 				sendMessage(message, "Non esiste quel suono.");
 				break;
 			}
-			// switch (args[1].toLowerCase()) {
-			/* 	case "bruh":
-					link = link.concat("16p4CjTz2gLdfR-hejGaezR42WLGal0wX");
-					break;
-				case "bene":
-					link = link.concat("1Bx-5fS7hiDJMj14wHGSjQsqELGEqvi9r");
-					break;
-				case "drillo":
-					link = link.concat("1pUkDcQOcFL3tKUeGyv019uzMA5qZ3avd");
-					break;
-				case "kekw":
-					link = link.concat("1pzyq45J-joUYCSXIXiEa7CLmmInlvhvs");
-					break;
-				case "kekmaximus":
-					link = link.concat("1I_-NmfKA0bwozBEKMd7YhGvxLDKV5xRl");
-					break;
-				case "ohkekkek":
-					link = link.concat("1VePgVaITdBxrZ-xrj4dW2LG-x_dDJ4hg");
-					break;
-				case "ohnono":
-					link = link.concat("1iwp2gRMuIO0yZQ5bZINH2kwg3COKQp1J");
-					break;
-				case "omegalul":
-					link = link.concat("1i2VMFTeo1VzOgzJjhLv3XwqH6rgHMx_f");
-					break;
-				case "whygay":
-					link = link.concat("1aVChOC5uOwFopcI1oVDHStYtjbXBYyMC");
-					break;
-				case "wut":
-					link = link.concat("1Bx-5fS7hiDJMj14wHGSjQsqELGEqvi9r");
-					break; */
-			// 	default:
-			// 		sendMessage(message, "Non esiste quel suono.");
-			// 		return;
-			// }
 			//Connessione e riproduzione del file.
 			connectToChannel(message).then(function (connection) {
 				const dispatcher = connection.play(link);
@@ -92,16 +57,15 @@ bot.on("message", function (message) {
 			});
 			break;
 		case "skip":
-			if (typeof server === undefined) {
-				sendMessage("Non c'è niente in coda.");
+			if (typeof(server) === undefined || !server.queue[0]) {
+				sendMessage(message, "Non c'è niente in coda.");
 				break;
 			}
-			server = servers[message.guild.id];
 			if (server.dispatcher) server.dispatcher.end();
 			break;
 		case "stop":
-			if (typeof server === undefined) {
-				sendMessage("Non c'è niente in coda.");
+			if (typeof(server) === undefined) {
+				sendMessage(message, "Non c'è niente in riproduzione.");
 				break;
 			}
 			server = servers[message.guild.id];
