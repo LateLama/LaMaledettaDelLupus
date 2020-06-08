@@ -6,7 +6,7 @@ const YTDL = require("ytdl-core");
 const listaSuoni = require("./listaSuoni.json");
 //Variabili.
 const PREFIX = "!";
-let dispatcher = 0;
+let dispatcher;
 //Inizializzazione bot.
 const bot = new Discord.Client();
 bot.login(process.env.BOT_TOKEN);
@@ -92,7 +92,7 @@ function disconnectFromChannel(message) {
 //Riproduzione dell'audio dei video di Youtube.
 function playYouTube(connection, message, song) {
 	dispatcher = connection.play(YTDL(song, { filter: "audioonly" }));
-	dispatcher.setVolume(0.25);
+	dispatcher.setVolume(0.30);
 	dispatcher.on("finish", () => {
 		disconnectFromChannel(message);
 	});
