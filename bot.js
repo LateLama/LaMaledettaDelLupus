@@ -5,33 +5,41 @@ const Discord = require("discord.js");
 const YTDL = require("ytdl-core");
 //Variabili.
 const PREFIX = "!";
-var bot = new Discord.Client();
-var servers = {};
+let servers = {};
+let listaSuoni = require("./listaSouni.json");
+//Inizializzazione bot.
+const bot = new Discord.Client();
 bot.login(process.env.BOT_TOKEN);
-//Quando il bot è pronto, lo annuncia nel prompt.
 bot.on("ready", function () {
 	console.log("Pronto!");
 });
+//Comandi.
 bot.on("message", function (message) {
 	//Salta i messaggi del bot stesso.
 	if (message.author.equals(bot.user)) return;
 	//Controllo del prefisso per i comandi.
 	if (!message.content.startsWith(PREFIX)) return;
 	//Comandi.
-	var args = message.content.substring(PREFIX.length).split(" ");
+	let args = message.content.substring(PREFIX.length).split(" ");
 	switch (args[0].toLowerCase()) {
 		//File audio
 		case "sound":
 			if (!channelCheck(message)) break;
 			if (!argsCheck(args, message, "Devi specificare un suono.")) break;
 			//Link clip audio in base al comando.
-			var link = "https://drive.google.com/uc?export=download&id=";
-			switch (args[1].toLowerCase()) {
-				case "bruh":
+			let link = "https://drive.google.com/uc?export=download&id=";
+			if (listaSuoni.hasOwnProperty(args[1])) {
+				link = link.concat(listaSuoni[args[1]]);
+			} else {
+				sendMessage(message, "Non esiste quel suono.");
+				break;
+			}
+			// switch (args[1].toLowerCase()) {
+				/* 	case "bruh":
 					link = link.concat("16p4CjTz2gLdfR-hejGaezR42WLGal0wX");
 					break;
 				case "bene":
-					link = link.concat("1VsE2Ehs5_6SRVzBoEa6aSJQ0qywfY9co");
+					link = link.concat("1Bx-5fS7hiDJMj14wHGSjQsqELGEqvi9r");
 					break;
 				case "drillo":
 					link = link.concat("1pUkDcQOcFL3tKUeGyv019uzMA5qZ3avd");
@@ -56,11 +64,11 @@ bot.on("message", function (message) {
 					break;
 				case "wut":
 					link = link.concat("1Bx-5fS7hiDJMj14wHGSjQsqELGEqvi9r");
-					break;
-				default:
-					sendMessage(message, "Non esiste quel suono.");
-					return;
-			}
+					break; */
+			// 	default:
+			// 		sendMessage(message, "Non esiste quel suono.");
+			// 		return;
+			// }
 			//Connessione e riproduzione del file.
 			connectToChannel(message).then(function (connection) {
 				const dispatcher = connection.play(link);
@@ -76,7 +84,7 @@ bot.on("message", function (message) {
 			//Aggiungere la canzone alla coda.
 			if (!servers[message.guild.id])
 				servers[message.guild.id] = { queue: [] };
-			var server = servers[message.guild.id];
+			let server = servers[message.guild.id];
 			server.queue.push(args[1]);
 			//Riproduzione della canzone.
 			connectToChannel(message).then(function (connection) {
@@ -84,11 +92,11 @@ bot.on("message", function (message) {
 			});
 			break;
 		case "skip":
-			var server = servers[message.guild.id];
+			let server = servers[message.guild.id];
 			if (server.dispatcher) server.dispatcher.end();
 			break;
 		case "stop":
-			var server = servers[message.guild.id];
+			let server = servers[message.guild.id];
 			disconnectFromChannel(message);
 			break;
 		default:
