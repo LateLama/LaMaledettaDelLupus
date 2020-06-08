@@ -35,7 +35,7 @@ bot.on("message", function (message) {
 				break;
 			}
 			// switch (args[1].toLowerCase()) {
-				/* 	case "bruh":
+			/* 	case "bruh":
 					link = link.concat("16p4CjTz2gLdfR-hejGaezR42WLGal0wX");
 					break;
 				case "bene":
@@ -92,11 +92,19 @@ bot.on("message", function (message) {
 			});
 			break;
 		case "skip":
-			let server = servers[message.guild.id];
+			if (typeof server === undefined) {
+				sendMessage("Non c'è niente in coda.");
+				break;
+			}
+			server = servers[message.guild.id];
 			if (server.dispatcher) server.dispatcher.end();
 			break;
 		case "stop":
-			let server = servers[message.guild.id];
+			if (typeof server === undefined) {
+				sendMessage("Non c'è niente in coda.");
+				break;
+			}
+			server = servers[message.guild.id];
 			disconnectFromChannel(message);
 			break;
 		default:
