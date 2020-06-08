@@ -6,7 +6,7 @@ const YTDL = require("ytdl-core");
 //Variabili.
 const PREFIX = "!";
 let servers = {};
-let listaSuoni = require("./listaSouni.json");
+let listaSuoni = require("./listaSuoni.json");
 //Inizializzazione bot.
 const bot = new Discord.Client();
 bot.login(process.env.BOT_TOKEN);
@@ -57,14 +57,14 @@ bot.on("message", function (message) {
 			});
 			break;
 		case "skip":
-			if (typeof(server) === undefined || !server.queue[0]) {
+			if (typeof server === undefined || !server.queue[0]) {
 				sendMessage(message, "Non c'è niente in coda.");
 				break;
 			}
 			if (server.dispatcher) server.dispatcher.end();
 			break;
 		case "stop":
-			if (typeof(server) === undefined) {
+			if (typeof server === undefined) {
 				sendMessage(message, "Non c'è niente in riproduzione.");
 				break;
 			}
