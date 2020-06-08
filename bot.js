@@ -109,6 +109,7 @@ function playYouTube(connection, message, server) {
 	dispatcher.setVolume(0.25);
 	dispatcher.on("finish", () => {
 		queue.shift();
+		dispatcher = 0;
 		if (queue[0]) playYouTube(connection, message);
 		else disconnectFromChannel(message);
 	});
