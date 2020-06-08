@@ -19,7 +19,6 @@ bot.on("message", function (message) {
 	if (message.author.equals(bot.user)) return;
 	//Controllo del prefisso per i comandi.
 	if (!message.content.startsWith(PREFIX)) return;
-	//Comandi.
 	let args = message.content.substring(PREFIX.length).split(" ");
 	switch (args[0].toLowerCase()) {
 		//File audio
@@ -46,6 +45,10 @@ bot.on("message", function (message) {
 		case "play":
 			if (!channelCheck(message)) break;
 			if (!argsCheck(args, message, "Devi specificare un link.")) break;
+			if (!YTDL.validateURL(args[1])) {
+				sendMessage(message, "Il link non è valido.");
+				break;
+			}
 			//Riproduzione della canzone.
 			connectToChannel(message).then(function (connection) {
 				playYouTube(connection, message, args[1]);
