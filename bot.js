@@ -20,7 +20,7 @@ bot.on("message", function (message) {
 	//Controllo del prefisso per i comandi.
 	if (!message.content.startsWith(PREFIX)) return;
 	let args = message.content.substring(PREFIX.length).split(" ");
-	switch (args[0].toLowerCase()) {
+	switch (args[0]) {
 		//File audio
 		case "help":
 			const embedAiuto = new Discord.MessageEmbed()
@@ -80,12 +80,13 @@ bot.on("message", function (message) {
 		case "listaSuoni":
 			const embedSuoni = new Discord.MessageEmbed()
 				.setColor("#ed5555")
-				.setTitle("Lista Suoni")
-				.setDescription("Questi sono i suoni riproducibili:");
+				.setTitle("Lista Suoni");
 			const suoni = Object.keys(listaSuoni);
-			for (var property in suoni) {
-				embedSuoni.setDescription() += " " + property;
+			var description = "Questi sono i suoni riproducibili:"
+			for (var prop in suoni) {
+				description = description.concat("\n" + prop)
 			}
+			embedSuoni.setDescription(description);
 			message.channel.send(embedSuoni);
 			break;
 		//Musica
