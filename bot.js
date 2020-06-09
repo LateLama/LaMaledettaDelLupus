@@ -27,7 +27,7 @@ bot.on("message", function (message) {
 				.setColor("#ed5555")
 				.setTitle("Guida al bot")
 				.setDescription(
-					"Ciao! Sono il bot del server del covoh.\nQuesto è quello che posso fare:**!stop** -> Ferma la riproduzione del video."
+					"Ciao! Sono il bot del server del covoh.\nQuesto è quello che posso fare:"
 				)
 				.addFields(
 					{
@@ -76,6 +76,17 @@ bot.on("message", function (message) {
 					disconnectFromChannel(message);
 				});
 			});
+			break;
+		case "listaSuoni":
+			const embedSuoni = new Discord.MessageEmbed()
+				.setColor("#ed5555")
+				.setTitle("Lista Suoni")
+				.setDescription("Questi sono i suoni riproducibili:");
+			const suoni = Object.keys(listaSuoni);
+			for (var property in suoni) {
+				embedSuoni.setDescription() += " " + property;
+			}
+			message.channel.send(embedSuoni);
 			break;
 		//Musica
 		case "play":
