@@ -128,7 +128,7 @@ bot.on("message", function (message) {
 			var description = "Questi sono i suoni riproducibili:";
 			//Per ogni indice dell'array, voglio il suono collegato.
 			for (var index in suoni) {
-				description = description.concat("\n" + suoni[prop]);
+				description = description.concat("\n" + suoni[index]);
 			}
 			embedSuoni.setDescription(description);
 			message.channel.send(embedSuoni);
