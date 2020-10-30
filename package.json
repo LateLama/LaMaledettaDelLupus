@@ -12,6 +12,6 @@
     "discord.js": "^12.1.1",
     "@discordjs/opus": "^0.1.0",
     "opusscript": "0.0.6",
-    "ytdl-core": "^2.1.7"
+    "ytdl-core": "^4.0.0"
   }
 }
